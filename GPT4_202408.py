@@ -47,23 +47,23 @@ client = AzureOpenAI(
  )
 
 # ファイルパスの設定
-files1 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs01\\*.xlsx']
-files2 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs02\\*.xlsx']
-files3 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs03\\*.xlsx']
-files4 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs04\\*.xlsx']
+files1 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs01\\memberA.xlsx']
+files2 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs02\\memberB.xlsx']
+files3 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs03\\memberC.xlsx']
+#files4 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs04\\memberD.xlsx']
 #example = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\Ans\\Ans.xlsx']
 
 # データの取得
 textsA = [extract_column_data(file) for file in files1]
 textsB = [extract_column_data(file) for file in files2]
 textsC = [extract_column_data(file) for file in files3]
-textsD = [extract_column_data(file) for file in files4]
+#textsD = [extract_column_data(file) for file in files4]
 
 # フラット化したリストを作成
 textsA_flat = [item for sublist in textsA for item in sublist]
 textsB_flat = [item for sublist in textsB for item in sublist]
 textsC_flat = [item for sublist in textsC for item in sublist]
-textsD_flat = [item for sublist in textsD for item in sublist]
+#textsD_flat = [item for sublist in textsD for item in sublist]
 
 questions = [extract_column_Question(file) for file in files1]
 questions_flat = [item for sublist in questions for item in sublist]
@@ -90,7 +90,8 @@ results_300 = []
 results_400 = []
 classifications = []
 
-for textsA, textsB, textsC, textsD, q_element in zip(textsA_flat, textsB_flat, textsC_flat, textsD_flat, questions_flat):
+"""#全パターン版
+for textsA, textsB, textsC,textsD, q_element in zip(textsA_flat, textsB_flat, textsC_flat, textsD_flat, questions_flat):
     if textsA is None and textsB is None and textsC is None and textsD is None:
         results_200.append(None)
         results_300.append(None)
@@ -110,7 +111,31 @@ for textsA, textsB, textsC, textsD, q_element in zip(textsA_flat, textsB_flat, t
         notes_half_width = [unicodedata.normalize('NFKC', s) for s in notes]
         result_filtered = count_target_words_filter_positive(notes_half_width, target_words_example)
         classifications.append(result_filtered)
+"""
 
+#監査員3人版
+for textsA, textsB, textsC, q_element in zip(textsA_flat, textsB_flat, textsC_flat, questions_flat):
+    if textsA is None and textsB is None and textsC is None :
+        results_200.append(None)
+        results_300.append(None)
+        results_400.append(None)
+        classifications.append(None)
+    else:
+        notes = [note for note in [textsA, textsB, textsC] if note is not None]
+        notes_str = ' '.join(notes)
+        
+        # 要約の生成
+        results_200.append(summarize_text(client, notes_str, q_element, 200))
+        results_300.append(summarize_text(client, notes_str, q_element, 300))
+        results_400.append(summarize_text(client, notes_str, q_element, 400))
+        
+        # メモ内の重要度に関する言及の抽出
+        target_words_example = ["CAR", "OBS", "OFI", "メモ"]
+        notes_half_width = [unicodedata.normalize('NFKC', s) for s in notes]
+        result_filtered = count_target_words_filter_positive(notes_half_width, target_words_example)
+        classifications.append(result_filtered)
+
+        
 # DataFrameの作成
 df_output = pd.DataFrame({
     "Summary_200": results_200,

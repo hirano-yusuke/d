@@ -47,11 +47,11 @@ client = AzureOpenAI(
  )
 
 # ファイルパスの設定
-files1 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs01\\memberA.xlsx']
-files2 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs02\\memberB.xlsx']
-files3 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs03\\memberC.xlsx']
-files4 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs04\\memberD.xlsx']
-example = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\Ans\\Ans.xlsx']
+files1 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs01\\*.xlsx']
+files2 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs02\\*.xlsx']
+files3 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs03\\*.xlsx']
+files4 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs04\\*.xlsx']
+#example = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\Ans\\Ans.xlsx']
 
 # データの取得
 textsA = [extract_column_data(file) for file in files1]

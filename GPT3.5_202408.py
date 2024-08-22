@@ -17,10 +17,10 @@ def extract_column_Question(file_path, column_letter='C'):
     return [cell.value for cell in sheet[column_letter]]
 
 # 結果ファイルのE列から前年度の回答を取得する
-def extract_column_Ans(file_path, column_letter='E'):
-    workbook = openpyxl.load_workbook(file_path, data_only=True)
-    sheet = workbook.active
-    return [cell.value for cell in sheet[column_letter]]
+#def extract_column_Ans(file_path, column_letter='E'):
+#    workbook = openpyxl.load_workbook(file_path, data_only=True)
+#    sheet = workbook.active
+#    return [cell.value for cell in sheet[column_letter]]
 
 # メモ内の指摘事項の重要度を抽出
 def count_target_words_filter_positive(texts, target_words):
@@ -51,7 +51,7 @@ files1 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs01\\memberA.xlsx']
 files2 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs02\\memberB.xlsx']
 files3 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs03\\memberC.xlsx']
 files4 = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\docs04\\memberD.xlsx']
-example = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\Ans\\Ans.xlsx']
+#example = ['C:\\Python\\MVP\\01_work\\docs\\03-gptapp\\Ans\\Ans.xlsx']
 
 # データの取得
 textsA = [extract_column_data(file) for file in files1]

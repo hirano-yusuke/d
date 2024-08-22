@@ -68,8 +68,8 @@ textsD_flat = [item for sublist in textsD for item in sublist]
 questions = [extract_column_Question(file) for file in files1]
 questions_flat = [item for sublist in questions for item in sublist]
 
-Ans = [extract_column_Ans(file) for file in example]
-Ans_flat = [item for sublist in Ans for item in sublist]
+#Ans = [extract_column_Ans(file) for file in example]
+#Ans_flat = [item for sublist in Ans for item in sublist]
 
 # 要約の作成関数
 def summarize_text(client, notes, q_element, length):
